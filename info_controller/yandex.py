@@ -21,6 +21,7 @@ class Track(Original):
         self.artists = ', '.join([i.name for i in self.track.artists])
         self.version = "(" + self.track.version + ")" if self.track.version else ""
         self.file = None
+        self.load()
 
     def __str__(self):
         return f"{self.title} - {self.artists} {self.version}"

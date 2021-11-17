@@ -13,6 +13,7 @@ class Video(Original):
         self.title = self.yt.title
         self.artists = self.yt.author
         self.file = None
+        self.load()
 
     def load(self) -> pathlib.Path:
         path = temp_dir / f"u{self.yt.video_id}.mp3"
