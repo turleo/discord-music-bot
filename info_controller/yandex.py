@@ -5,9 +5,9 @@ from yandex_music import Client
 from yandex_music.track.track import Track
 from .base import Music as Original
 
-
-client = Client()
+client = Client.from_credentials(os.environ.get("yandex_user"),os.environ.get("yandex_password"))  # Client()
 temp_dir = pathlib.Path(os.environ.get("temp_path", "."))
+
 
 class Track(Original):
     def __init__(self, url: str):

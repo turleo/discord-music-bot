@@ -65,6 +65,8 @@ async def play(ctx, arg: str):
         return
 
     track = info_controller.get_song(arg)
+    if track is None:
+        ctx.send("Sorry, this platform is not supported yet")
     try:
         await play_music(track, ctx)
     except CommandInvokeError:
@@ -77,6 +79,9 @@ async def add(ctx, arg):
 
     queue[ctx.channel.id] = queue.get(ctx.channel.id, {"playing": False, "queue": []})
     track = info_controller.get_song(arg)
+    if track is None:
+        ctx.send("Sorry, this platform is not supported yet")
+
     await ctx.send(f'Added {track}')
     if not queue[ctx.channel.id]["playing"]:
         await play(ctx, arg)
