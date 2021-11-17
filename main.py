@@ -23,7 +23,7 @@ async def on_ready():
 def check_queue_generator(ctx):
     global queue
 
-    async def check_queue(error: Exception):
+    async def check_queue():
         global queue
 
         if queue.get(ctx.channel.id, None) is not None and queue.get(ctx.channel.id)["queue"]:
@@ -37,7 +37,7 @@ def check_queue_generator(ctx):
 
 async def after_callback_generator(ctx):
     def callback(error: Exception):
-        bot.loop.create_task(check_queue_generator(ctx)(error))
+        bot.loop.create_task(check_queue_generator(ctx)())
 
     return callback
 
@@ -87,6 +87,21 @@ async def add(ctx, arg):
         await play(ctx, arg)
     else:
         queue[ctx.channel.id]["queue"].append(track)
+
+
+@bot.command()
+async def stop(ctx):
+    global queue
+
+    queue[ctx.channel.id] = {"playing": False, "queue": []}
+    ctx.bot.voice_clients[0].stop()
+    await ctx.send("Stopped")
+
+
+@bot.command()
+async def next(ctx):
+    await ctx.send("Playing next")
+    ctx.bot.voice_clients[0].stop()
 
 
 @bot.command()
