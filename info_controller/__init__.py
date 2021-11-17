@@ -1,23 +1,12 @@
-import pathlib
+from .base import Music
 import re
-import yandex
+from .yandex import Track as YandexMusic
+from .youtube import Video as Youtube
 
 
-class Music:
-    def __init__(self, url: str):
-        self.id = ""
-        self.title = ""
-        self.artists = ""
-        self.file = None
-
-    def __str__(self):
-        return f"{self.title} - {self.artists}"
-
-    def load(self) -> pathlib.Path:
-        pass
-
-def get_song(url: str):
+def get_song(url: str) -> Music:
     if re.match(r"(https?://)?music\.yandex\.../album/.*/track/.*", url):
-        return yandex.Music(url)
-    elif url.find(""):
-        pass
+        return YandexMusic(url)
+    elif re.match(r"(https?://)?(www.)?youtu\.?be(.com)?/(watch)?([?&])?(v=)?.*", url):
+        return Youtube(url)
+    return None

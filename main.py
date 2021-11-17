@@ -2,6 +2,7 @@ import logging
 
 from discord import Embed, FFmpegPCMAudio
 from discord.ext import commands
+from discord.ext.commands import CommandInvokeError
 from discord.voice_client import VoiceClient
 import asyncio
 import os
@@ -63,8 +64,11 @@ async def play(ctx, arg: str):
     if ctx.author == bot.user:
         return
 
-    track = info_controller.Music(arg)
-    await play_music(track, ctx)
+    track = info_controller.get_song(arg)
+    try:
+        await play_music(track, ctx)
+    except CommandInvokeError:
+        await ctx.send("Already playing")
 
 
 @bot.command()
@@ -76,6 +80,8 @@ async def add(ctx, arg):
     await ctx.send(f'Added {track}')
     if not queue[ctx.channel.id]["playing"]:
         await play(ctx, arg)
+    else:
+        queue[ctx.channel.id]["queue"].append(track)
 
 
 @bot.command()

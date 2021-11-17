@@ -3,14 +3,15 @@ import pathlib
 
 from yandex_music import Client
 from yandex_music.track.track import Track
+from .base import Music as Original
 
-from . import Music as Original
 
 client = Client()
 temp_dir = pathlib.Path(os.environ.get("temp_path", "."))
 
-class Music(Original):
+class Track(Original):
     def __init__(self, url: str):
+        super().__init__(url)
         url = url.split("/")
         music_id = f"{url[6]}:{url[4]}"
         track = client.tracks([music_id])
