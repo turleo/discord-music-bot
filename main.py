@@ -117,4 +117,4 @@ async def bye(ctx):
     await ctx.send("Bye 👋")
 
 
-bot.run("NzY4Nzc4OTQyODY0Njg3MTA0.X5FbLw.pUUhRwXQyVaitbofK-zw9AZqZkA")
+bot.run(os.environ.get("discord_token"))
