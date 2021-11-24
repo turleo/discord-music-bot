@@ -1,0 +1,4 @@
+git+https://github.com/baxterisme/pytube
+discord.py
+discord.py[voice]
+yandex-music
