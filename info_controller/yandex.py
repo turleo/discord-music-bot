@@ -5,7 +5,12 @@ from yandex_music import Client
 from yandex_music.track.track import Track
 from .base import Music as Original
 
-client = Client.from_credentials(os.environ.get("yandex_user"),os.environ.get("yandex_password"))  # Client()
+user = os.environ.get("yandex_user")
+password = os.environ.get("yandex_password")
+if user is not None and password is not None:
+    client = Client.from_credentials(user, password)
+else:
+    client = Client()
 temp_dir = pathlib.Path(os.environ.get("temp_path", "."))
 
 
