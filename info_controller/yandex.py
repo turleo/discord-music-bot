@@ -2,13 +2,17 @@ import os
 import pathlib
 
 from yandex_music import Client
+from yandex_music.exceptions import BadRequest
 from yandex_music.track.track import Track
 from .base import Music as Original
 
 user = os.environ.get("yandex_user")
 password = os.environ.get("yandex_password")
 if user is not None and password is not None:
-    client = Client.from_credentials(user, password)
+    try:
+        client = Client.from_credentials(user, password)
+    except BadRequest:
+        client = Client()
 else:
     client = Client()
 temp_dir = pathlib.Path(os.environ.get("temp_path", "."))
